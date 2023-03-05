@@ -56,11 +56,11 @@ const audioClips = [
     id: "Closed-jj",
     url: "https://s3.amazonaws.com/freecodecamp/drums/Cev_H2.mp3",
   },
-]
+];
 
-function App(){
-  const [volume , setVolume] = React.useState(1);
-  const [recording , setRecording] = React.useState("");
+function App() {
+  const [volume, setVolume] = React.useState(1);
+  const [recording, setRecording] = React.useState("");
   const [speed, setSpeed] = React.useState(0.5);
 
   const playRecording = () => {
@@ -79,59 +79,65 @@ function App(){
     );
   };
 
-
   return (
-    <div id="drum-machine" className="text-center bg-info w-100 min-vh-100 text-white">
-        <h2>Drum Machine</h2>
-        <div className="w-30">
-        {
-          audioClips.map(clip => (
-            <Pad 
-              key = {clip.id}
-              clip = {clip}
-              volume = {volume}
-              setRecording={setRecording}
-            />
-          ))
-        }
-        </div>
-        <br />
-        <h4>Volume</h4>
-        <input 
-          id="display"
-          type={"range"}
-          step ="0.01"
-          onChange={(e) => setVolume(e.target.value)}
-          value={volume}
-          max="1"
-          min="0"
-          className="w-50"
+    <div
+      id="drum-machine"
+      className="text-center bg-info w-100 min-vh-100 text-white"
+    >
+      <h2>Drum Machine</h2>
+      <div className="w-30">
+        {audioClips.map((clip) => (
+          <Pad
+            key={clip.id}
+            clip={clip}
+            volume={volume}
+            setRecording={setRecording}
           />
-          <h3>{recording}</h3>
-          {
-            (
-            <>
-              <button onClick={playRecording} className="btn btn-success m-4">Play</button>
-              <button onClick={() => setRecording("")} className="btn btn-danger m-4">Clear</button>
-              <br />
-              <h4>Speed</h4>
-              <input 
-                type="range"
-                step={0.01}
-                onChange={(e) => setSpeed(e.target.value)}
-                value={speed}
-                max="1.2"
-                min={0.1}
-                className="w-50"
-              />
-            </>
-          )}
+        ))}
+      </div>
+      <br />
+      <h4>Volume</h4>
+      <input
+        id="display"
+        type={"range"}
+        step="0.01"
+        onChange={(e) => setVolume(e.target.value)}
+        value={volume}
+        max="1"
+        min="0"
+        className="w-50"
+      />
+      <h3>{recording}</h3>
+      {
+        <>
+          <button onClick={playRecording} className="btn btn-success m-4">
+            Play
+          </button>
+          <button
+            onClick={() => setRecording("")}
+            className="btn btn-danger m-4"
+          >
+            Clear
+          </button>
+          <br />
+          <h4>Speed</h4>
+          <input
+            type="range"
+            step={0.01}
+            onChange={(e) => setSpeed(e.target.value)}
+            value={speed}
+            max="1.2"
+            min={0.1}
+            className="w-50"
+          />
+        </>
+      }
     </div>
-  )
+  );
 }
 
-function Pad({clip , volume , setRecording}) {
-  const [active , setActive] = React.useState(false);
+function Pad({ clip, volume, setRecording }) {
+  const [active, setActive] = React.useState(false);
 
   React.useEffect(() => {
     document.addEventListener("keydown", handleKeyPress);
@@ -141,7 +147,7 @@ function Pad({clip , volume , setRecording}) {
   }, []);
 
   const handleKeyPress = (e) => {
-    if(e.keyCode === clip.keyCode){
+    if (e.keyCode === clip.keyCode) {
       playSound();
     }
   };
@@ -160,13 +166,14 @@ function Pad({clip , volume , setRecording}) {
     <div
       id="#1"
       onClick={playSound}
-      className={`drum-pad btn btn-secondary p-4 m-3 ${active && "btn-warning"}`}
+      className={`drum-pad btn btn-secondary p-4 m-3 ${
+        active && "btn-warning"
+      }`}
     >
       <audio className="clip" id={clip.keyTrigger} src={clip.url} />
       {clip.keyTrigger}
     </div>
-  )
-  
+  );
 }
 
 export default App;
